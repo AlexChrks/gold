@@ -39,19 +39,42 @@ let reserve = {
 
 const wrapper = document.querySelector('.global-wrapper');
 
-async function ratesApp() {
-  const url = 'https://api.ratesapi.io/api/latest';
-  let response = await fetch(url);
-  let data = await response.json();
+function showErrorNotification() {
+  const error = document.createElement('div');
+  error.innerText = 'Impossible to load rates. Try later';
+  wrapper.append(error);
+  
+  error.addEventListener('click', () => {
+    error.parentNode.removeChild(error);
+    ratesApp();
+  });
+}
 
+async function query() {
+  const url = 'https://api.ratesapi.io/api/latests';
+  let response = await fetch(url);
+  return response;
+}
+
+function fillCurrency(parent, data) {
+  for (let key in data.rates) {
+    const option = document.createElement('option')
+    option.innerText = key;
+    parent.append(option);
+  }
+}
+
+
+async function ratesApp() {
+  let response = await query();
+  let data = await response.json();
+  
   if (response.status !== 200) {
-    data = reserve;
-  } else {
-    reserve = data;
+    showErrorNotification();
+    return;
   }
 
-  console.log(response.status)
-  console.log(data);
+
 
   const input = document.createElement('input');
   input.placeholder = 'Count';
@@ -69,17 +92,12 @@ async function ratesApp() {
 
   const resultDiv = document.createElement('div');
 
-  for (let key in data.rates) {
-    const option = document.createElement('option')
-    option.innerText = key;
-    baseDrop.append(option);
-  }
+  baseDrop.addEventListener('change', async function changeQuery() {
+    data = await (await query()).json();
+  });
 
-  for (let key in data.rates) {
-    const option = document.createElement('option')
-    option.innerText = key;
-    symbolDrop.append(option);
-  }
+  fillCurrency(baseDrop, data);
+  fillCurrency(symbolDrop, data);
 
   btnCalculate.addEventListener('click', (e) => {
     const inputValue = input.value;
@@ -89,8 +107,6 @@ async function ratesApp() {
     const euroEq = inputValue / data.rates[baseValue];
     const result = euroEq * data.rates[symbolValue];
     resultDiv.innerText = `${result.toFixed(2)} ${symbolValue}`;
-    console.log(euroEq)
-    console.log(symbolValue)
   });
   
 
