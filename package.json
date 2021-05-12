@@ -1,0 +1,39 @@
+{
+    "private": true,
+    "name": "boilerplate-webpack-babel",
+    "version": "0.0.1",
+    "description": "Webpack & Babel.js",
+    "license": "MIT",
+    "author": {
+        "name": "Alex Cherkas",
+        "email": "alexey.cherkas1997@gmail.com"
+    },
+    "scripts": {
+        "build:development": "webpack --config webpack/webpack.config.js",
+        "build:production": "webpack --config webpack/webpack.config.js --env.production",
+        "watch": "npm run build:development -- -w"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.10.2",
+        "@babel/preset-env": "^7.10.2",
+        "babel-loader": "^8.1.0",
+        "css-loader": "^5.2.4",
+        "file-loader": "^6.0.0",
+        "http-server": "^0.12.3",
+        "webpack": "^4.43.0",
+        "webpack-bundle-analyzer": "^3.8.0",
+        "webpack-cli": "^3.3.11",
+        "webpack-dev-server": "^3.11.0",
+        "webpack-merge": "^4.2.2"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/piecioshka/boilerplate-webpack-babel"
+    },
+    "dependencies": {
+        "@babel/polyfill": "^7.12.1",
+        "es6-promise": "^4.2.8",
+        "fetch-everywhere": "^1.0.5",
+        "style-loader": "^2.0.0"
+    }
+}

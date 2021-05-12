@@ -1,9 +1,17 @@
+import './index.html';
+import '../src/styles/styles.css';
+
+require("@babel/polyfill");
+require('es6-promise').polyfill();
+require('fetch-everywhere');
+
+
 const wrapper = document.querySelector('.global-wrapper');
 
 function showErrorNotification() {
   const error = document.createElement('div');
   error.innerText = 'Impossible to load rates. Try later';
-  wrapper.append(error);
+  wrapper.appendChild(error);
   
   error.addEventListener('click', () => {
     error.parentNode.removeChild(error);
@@ -25,7 +33,7 @@ function fillCurrency(parent, data) {
   for (let key in data.rates) {
     const option = document.createElement('option')
     option.innerText = key;
-    parent.append(option);
+    parent.appendChild(option);
   }
 }
 
@@ -66,9 +74,11 @@ async function ratesApp() {
   });
   
 
-  wrapper.append(input, baseDrop, symbolDrop, btnCalculate, resultDiv);
+  wrapper.appendChild(input);
+  wrapper.appendChild(baseDrop);
+  wrapper.appendChild(symbolDrop);
+  wrapper.appendChild(btnCalculate);
+  wrapper.appendChild(resultDiv);
 }
 
   ratesApp();
-
-
