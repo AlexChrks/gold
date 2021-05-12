@@ -14,7 +14,11 @@ function showErrorNotification() {
 async function query() {
   const url = 'https://api.ratesapi.io/api/latest';
   let response = await fetch(url);
-  return response;
+  if (response.status !== 200) {
+    showErrorNotification();
+    return;
+  }
+  return response.json();
 }
 
 function fillCurrency(parent, data) {
@@ -25,17 +29,8 @@ function fillCurrency(parent, data) {
   }
 }
 
-
 async function ratesApp() {
-  let response = await query();
-  let data = await response.json();
-  
-  if (response.status !== 200) {
-    showErrorNotification();
-    return;
-  }
-
-
+  let data = await query();
 
   const input = document.createElement('input');
   input.placeholder = 'Count';
@@ -54,7 +49,7 @@ async function ratesApp() {
   const resultDiv = document.createElement('div');
 
   baseDrop.addEventListener('change', async function changeQuery() {
-    data = await (await query()).json();
+    data = await query();
   });
 
   fillCurrency(baseDrop, data);
