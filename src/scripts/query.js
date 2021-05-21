@@ -1,12 +1,12 @@
 import showErrorNotification from './showErrorNotification.js';
 
 export default async function query(errorParent) {
-  const url = 'https://api.ratesapi.io/api/latest';
-  let response = await fetch(url).catch(() => {
-    showErrorNotification(document.querySelector('.global-wrapper'))
+  const url = 'https://api.exchangerate.host/latest';
+  let response = await fetch(url).catch((e) => {
+    console.log('Api error')
   });
 
-  if (response.status !== 200) {
+  if (response === undefined) {
     const {default: showErrorNotification} = await import('./showErrorNotification.js');
     showErrorNotification(errorParent);
     return;

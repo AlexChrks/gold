@@ -3,6 +3,10 @@ export default async function ratesApp(parent) {
   const {default: query} = await import('./query.js')
   let data = await query(parent);
   
+  if (data === undefined) {
+    return
+  }
+
   const {default: createUI} = await import('./createUI.js');
   const {input, baseDrop, symbolDrop, btnCalculate, resultDiv} = createUI(parent);
 
